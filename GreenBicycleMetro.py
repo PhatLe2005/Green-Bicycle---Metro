@@ -3467,9 +3467,7 @@ def status():
     return render_template_string(
         STATUS_HTML,
         rent=rent_info,
-        start_time_js=rent_info["start_time"].strftime(
-            "%Y-%m-%d %H:%M:%S"
-        )
+        start_time_js=rent_info["start_time"].isoformat()
     )
 
 

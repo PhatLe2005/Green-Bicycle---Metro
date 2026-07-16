@@ -2423,391 +2423,166 @@ SEND_CODE_HTML = """
 
 <!DOCTYPE html>
 <html>
-
 <head>
 
-<meta name="viewport"
-content="width=device-width,initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>Gửi mã mở khóa</title>
+<title>Green Bicycle - Metro</title>
 
 <style>
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 
 body{
 
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+height:100vh;
 
-    background:
-    linear-gradient(
-        rgba(255,255,255,.9),
-        rgba(255,255,255,.9)
-    ),
-    url('{{ url_for("static",filename="images/metro_nen2.jpg") }}');
+display:flex;
+justify-content:center;
+align-items:center;
 
-    background-size:cover;
+background:
+linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
+url('{{ url_for("static",filename="images/metro_nen2.jpg") }}');
 
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    height:100vh;
+background-size:cover;
+background-position:center;
 
 }
 
 .box{
 
-    width:92%;
+width:92%;
+max-width:430px;
 
-    max-width:520px;
+background:rgba(255,255,255,.94);
 
-    background:white;
+border-radius:28px;
 
-    border-radius:25px;
+padding:28px 22px;
 
-    padding:35px;
+text-align:center;
 
-    text-align:center;
-
-    box-shadow:0 10px 30px rgba(0,0,0,.18);
-
-}
-
-.logo{
-
-    width:90px;
-
-    margin-bottom:20px;
-
-}
-
-h2{
-
-    color:#28a745;
-
-    margin-bottom:10px;
-
-}
-
-.sub{
-
-    color:#666;
-
-    font-size:20px;
-
-    margin-bottom:25px;
-
-}
-
-input{
-
-    width:100%;
-
-    height:65px;
-
-    border:2px solid #ddd;
-
-    border-radius:16px;
-
-    padding:0 20px;
-
-    font-size:24px;
-
-    outline:none;
-
-}
-
-button{
-
-    width:100%;
-
-    height:65px;
-
-    margin-top:20px;
-
-    border:none;
-
-    border-radius:18px;
-
-    background:#28a745;
-
-    color:white;
-
-    font-size:26px;
-
-    font-weight:bold;
-
-    cursor:pointer;
-
-}
-
-#success{
-
-    display:none;
-
-    margin-top:30px;
-
-}
-
-.code{
-
-    font-size:45px;
-
-    font-weight:bold;
-
-    color:#28a745;
-
-    letter-spacing:5px;
-
-    margin:15px 0;
-
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="box">
-
-<img
-class="logo"
-src="{{ url_for('static',filename='images/logo.png') }}">
-
-<h2>
-
-Gửi mã mở khóa qua Zalo
-
-</h2>
-
-<p class="sub">
-
-Nhập số điện thoại đã đăng ký Zalo
-
-</p>
-
-<input
-
-id="phone"
-
-placeholder="Ví dụ: 0901234567">
-
-<button id="sendBtn" onclick="sendCode()">
-
-📲 GỬI MÃ
-
-</button>
-
-<div id="success">
-
-<h3>
-
-✅ Đã gửi thành công
-
-</h3>
-
-<br>
-
-<p>
-
-Mã mở khóa đã gửi tới Zalo
-
-</p>
-
-<br>
-
-<div class="code">
-
-{{ rent.bike_code }}
-
-</div>
-
-<br>
-
-<button
-
-onclick="location.href='/unlock'">
-
-TÔI ĐÃ NHẬN MÃ
-
-</button>
-
-</div>
-
-</div>
-
-<script>
-
-function sendCode(){
-
-    let phone = document.getElementById("phone").value.trim();
-
-    if(phone==""){
-
-        alert("Vui lòng nhập số điện thoại.");
-
-        return;
-
-    }
-
-    let btn = document.getElementById("sendBtn");
-
-    btn.disabled = true;
-
-    btn.innerHTML = "⏳ Đang gửi mã qua Zalo...";
-
-    setTimeout(function(){
-
-        btn.style.display = "none";
-
-        document.getElementById("success").style.display = "block";
-
-    },2000);
-
-}
-
-</script>
-
-</body>
-
-</html>
-
-"""
-
-
-UNLOCK_HTML = """
-
-<!DOCTYPE html>
-
-<html>
-
-<head>
-
-<meta name="viewport"
-content="width=device-width,initial-scale=1.0">
-
-<title>Mở khóa xe</title>
-
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-
-    background:
-    linear-gradient(
-        rgba(255,255,255,.9),
-        rgba(255,255,255,.9)
-    ),
-    url('{{ url_for("static",filename="images/metro_nen2.jpg") }}');
-
-    background-size:cover;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    height:100vh;
-
-}
-
-.box{
-
-    width:92%;
-
-    max-width:520px;
-
-    background:white;
-
-    border-radius:25px;
-
-    padding:35px;
-
-    text-align:center;
-
-    box-shadow:0 10px 30px rgba(0,0,0,.18);
-
-}
-
-.lock{
-
-    font-size:90px;
+box-shadow:0 20px 40px rgba(0,0,0,.25);
 
 }
 
 .title{
 
-    margin-top:15px;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
 
-    font-size:35px;
+font-size:30px;
+font-weight:800;
+color:#28a745;
 
-    font-weight:bold;
+}
 
-    color:#28a745;
+.title img{
+
+width:52px;
+
+}
+
+.success{
+
+margin-top:12px;
+
+font-size:22px;
+font-weight:700;
+
+color:#28a745;
+
+}
+
+.ready{
+
+margin-top:5px;
+
+font-size:17px;
+
+color:#666;
+
+}
+
+.info{
+
+margin-top:22px;
+
+background:linear-gradient(180deg,#36c954,#28a745);
+
+border-radius:22px;
+
+padding:22px;
+
+color:white;
+
+}
+
+.unlock-title{
+
+font-size:22px;
+font-weight:700;
+
+margin-bottom:15px;
 
 }
 
 .code{
 
-    margin:30px 0;
+font-size:56px;
+font-weight:900;
 
-    font-size:55px;
+letter-spacing:8px;
 
-    font-weight:bold;
-
-    color:#28a745;
-
-    letter-spacing:8px;
+margin:15px 0;
 
 }
 
 .note{
 
-    color:#666;
+font-size:16px;
 
-    font-size:22px;
-
-    line-height:1.6;
+line-height:1.6;
 
 }
 
-button{
+.return-btn{
 
-    width:100%;
+width:100%;
 
-    height:68px;
+height:58px;
 
-    margin-top:35px;
+margin-top:24px;
 
-    border:none;
+border:none;
 
-    border-radius:18px;
+border-radius:16px;
 
-    background:#28a745;
+background:linear-gradient(180deg,#39c953,#28a745);
 
-    color:white;
+color:white;
 
-    font-size:28px;
+font-size:22px;
+font-weight:700;
 
-    font-weight:bold;
+cursor:pointer;
 
-    cursor:pointer;
+box-shadow:0 8px 18px rgba(40,167,69,.35);
+
+}
+
+.return-btn:hover{
+
+transform:scale(1.02);
 
 }
 
@@ -2819,235 +2594,48 @@ button{
 
 <div class="box">
 
-<div class="lock">
+<div class="title">
 
-🔒
+<img src="{{ url_for('static',filename='images/logo.png') }}">
+
+<span>Green Bicycle - Metro</span>
 
 </div>
 
-<div class="title">
+<div class="success">
+✅ Quét mã thành công
+</div>
 
-Khóa bánh xe điện tử
+<div class="info">
 
+<div class="unlock-title">
+🔓 MÃ MỞ KHÓA XE
 </div>
 
 <div class="code">
-
-{{ rent.bike_code }}
-
+{{ rent.unlock_code }}
 </div>
 
 <div class="note">
-
-Nhập mã trên vào bàn phím của khóa điện tử
-gắn trên bánh sau xe.
-
-<br><br>
-
-Sau khi khóa phát tín hiệu mở,
-nhấn nút bên dưới.
+Nhập mã <b>4 chữ số</b> này vào khóa điện tử trên xe để mở khóa và bắt đầu hành trình.
+</div>
 
 </div>
 
-<button
+<button class="return-btn"
+onclick="location.href='/loading'">
 
-onclick="location.href='/unlock_loading'">
-
-🔓 ĐÃ NHẬP MÃ - MỞ KHÓA XE
+ĐÃ NHẬP MÃ
 
 </button>
 
 </div>
 
 </body>
-
 </html>
 
 """
 
-
-UNLOCK_LOADING_HTML = """
-
-<!DOCTYPE html>
-
-<html>
-
-<head>
-
-<meta name="viewport"
-content="width=device-width,initial-scale=1.0">
-
-<meta http-equiv="refresh"
-content="3;url=/status">
-
-<title>Đang mở khóa</title>
-
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-
-    background:
-    linear-gradient(
-        rgba(255,255,255,.92),
-        rgba(255,255,255,.92)
-    ),
-    url('{{ url_for("static",filename="images/metro_nen2.jpg") }}');
-
-    background-size:cover;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    height:100vh;
-
-}
-
-.box{
-
-    width:92%;
-
-    max-width:520px;
-
-    background:white;
-
-    border-radius:25px;
-
-    padding:40px;
-
-    text-align:center;
-
-    box-shadow:0 10px 30px rgba(0,0,0,.18);
-
-}
-
-.lock{
-
-    font-size:100px;
-
-    animation:openLock 1.2s infinite;
-
-}
-
-.title{
-
-    margin-top:20px;
-
-    font-size:38px;
-
-    font-weight:700;
-
-    color:#28a745;
-
-}
-
-.sub{
-
-    margin-top:15px;
-
-    color:#666;
-
-    font-size:24px;
-
-}
-
-.loader{
-
-    margin:35px auto 0;
-
-    width:65px;
-
-    height:65px;
-
-    border:8px solid #ddd;
-
-    border-top:8px solid #28a745;
-
-    border-radius:50%;
-
-    animation:spin 1s linear infinite;
-
-}
-
-@keyframes spin{
-
-100%{
-
-transform:rotate(360deg);
-
-}
-
-}
-
-@keyframes openLock{
-
-0%{
-
-transform:scale(1);
-
-}
-
-50%{
-
-transform:scale(1.15);
-
-}
-
-100%{
-
-transform:scale(1);
-
-}
-
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="box">
-
-<div class="lock">
-
-🔓
-
-</div>
-
-<div class="title">
-
-Đang mở khóa xe...
-
-</div>
-
-<div class="sub">
-
-Vui lòng chờ trong giây lát
-
-</div>
-
-<div class="loader">
-
-</div>
-
-</div>
-
-</body>
-
-</html>
-
-"""
 
 
 LOADING_HTML = """
@@ -3186,7 +2774,7 @@ body{
         </div>
 
         <div class="success-text">
-            Quét mã thành công
+            Đã nhập mã thành công
         </div>
 
         <div class="subtitle">
@@ -4035,26 +3623,14 @@ def rent(station_id):
     )
 
 
-@app.route("/unlock")
-def unlock():
+@app.route("/unlock_bike/<int:station_id>")
+def unlock_bike(station_id):
 
-    if rent_info is None:
-        return redirect("/")
-
-    return render_template_string(
-        UNLOCK_HTML,
-        rent=rent_info
+    return render_template(
+        "unlock_success.html",
+        station_id=station_id
     )
 
-@app.route("/unlock_loading")
-def unlock_loading():
-
-    if rent_info is None:
-        return redirect("/")
-
-    return render_template_string(
-        UNLOCK_LOADING_HTML
-    )
 
 @app.route("/confirm_rent/<int:station_id>")
 def confirm_rent(station_id):
@@ -4085,14 +3661,15 @@ def confirm_rent(station_id):
         now = datetime.now()
 
         rent_info = {
-            "bike_id": bike_id,
-            "bike_code": f"GBM-{bike_id:03d}",
-            "metro": station["metro"],
-            "station": station["name"],
-            "start_time": now,
-            "start": now.strftime("%H:%M:%S"),
-            "date": now.strftime("%d/%m/%Y")
-        }
+    "bike_id": bike_id,
+    "bike_code": f"GBM-{bike_id:03d}",
+    "unlock_code": str(random.randint(1000,9999)),
+    "metro": station["metro"],
+    "station": station["name"],
+    "start_time": now,
+    "start": now.strftime("%H:%M:%S"),
+    "date": now.strftime("%d/%m/%Y")
+}
 
         return redirect("/send_code")
 
@@ -4109,6 +3686,21 @@ def send_code():
         rent=rent_info
     )
 
+@app.route("/unlock")
+def unlock():
+
+    if rent_info is None:
+        return redirect("/")
+
+    return render_template_string(
+        UNLOCK_HTML,
+        rent=rent_info
+    )
+
+@app.route("/loading")
+def loading():
+    return render_template_string(LOADING_HTML)
+
 @app.route("/status")
 def status():
 
@@ -4118,7 +3710,9 @@ def status():
     return render_template_string(
         STATUS_HTML,
         rent=rent_info,
-        start_time_js=rent_info["start_time"].isoformat()
+        start_time_js=rent_info["start_time"].strftime(
+            "%Y-%m-%d %H:%M:%S"
+        )
     )
 
 

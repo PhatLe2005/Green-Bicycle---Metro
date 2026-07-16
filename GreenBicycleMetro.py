@@ -2419,6 +2419,637 @@ body{
 """
 
 
+SEND_CODE_HTML = """
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<title>Gửi mã mở khóa</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+
+    background:
+    linear-gradient(
+        rgba(255,255,255,.9),
+        rgba(255,255,255,.9)
+    ),
+    url('{{ url_for("static",filename="images/metro_nen2.jpg") }}');
+
+    background-size:cover;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    height:100vh;
+
+}
+
+.box{
+
+    width:92%;
+
+    max-width:520px;
+
+    background:white;
+
+    border-radius:25px;
+
+    padding:35px;
+
+    text-align:center;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.18);
+
+}
+
+.logo{
+
+    width:90px;
+
+    margin-bottom:20px;
+
+}
+
+h2{
+
+    color:#28a745;
+
+    margin-bottom:10px;
+
+}
+
+.sub{
+
+    color:#666;
+
+    font-size:20px;
+
+    margin-bottom:25px;
+
+}
+
+input{
+
+    width:100%;
+
+    height:65px;
+
+    border:2px solid #ddd;
+
+    border-radius:16px;
+
+    padding:0 20px;
+
+    font-size:24px;
+
+    outline:none;
+
+}
+
+button{
+
+    width:100%;
+
+    height:65px;
+
+    margin-top:20px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:#28a745;
+
+    color:white;
+
+    font-size:26px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+#success{
+
+    display:none;
+
+    margin-top:30px;
+
+}
+
+.code{
+
+    font-size:45px;
+
+    font-weight:bold;
+
+    color:#28a745;
+
+    letter-spacing:5px;
+
+    margin:15px 0;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+<img
+class="logo"
+src="{{ url_for('static',filename='images/logo.png') }}">
+
+<h2>
+
+Gửi mã mở khóa qua Zalo
+
+</h2>
+
+<p class="sub">
+
+Nhập số điện thoại đã đăng ký Zalo
+
+</p>
+
+<input
+
+id="phone"
+
+placeholder="Ví dụ: 0901234567">
+
+<button id="sendBtn" onclick="sendCode()">
+
+📲 GỬI MÃ
+
+</button>
+
+<div id="success">
+
+<h3>
+
+✅ Đã gửi thành công
+
+</h3>
+
+<br>
+
+<p>
+
+Mã mở khóa đã gửi tới Zalo
+
+</p>
+
+<br>
+
+<div class="code">
+
+{{ rent.bike_code }}
+
+</div>
+
+<br>
+
+<button
+
+onclick="location.href='/unlock'">
+
+TÔI ĐÃ NHẬN MÃ
+
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+function sendCode(){
+
+    let phone = document.getElementById("phone").value.trim();
+
+    if(phone==""){
+
+        alert("Vui lòng nhập số điện thoại.");
+
+        return;
+
+    }
+
+    let btn = document.getElementById("sendBtn");
+
+    btn.disabled = true;
+
+    btn.innerHTML = "⏳ Đang gửi mã qua Zalo...";
+
+    setTimeout(function(){
+
+        btn.style.display = "none";
+
+        document.getElementById("success").style.display = "block";
+
+    },2000);
+
+}
+
+</script>
+
+</body>
+
+</html>
+
+"""
+
+
+UNLOCK_HTML = """
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<title>Mở khóa xe</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+
+    background:
+    linear-gradient(
+        rgba(255,255,255,.9),
+        rgba(255,255,255,.9)
+    ),
+    url('{{ url_for("static",filename="images/metro_nen2.jpg") }}');
+
+    background-size:cover;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    height:100vh;
+
+}
+
+.box{
+
+    width:92%;
+
+    max-width:520px;
+
+    background:white;
+
+    border-radius:25px;
+
+    padding:35px;
+
+    text-align:center;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.18);
+
+}
+
+.lock{
+
+    font-size:90px;
+
+}
+
+.title{
+
+    margin-top:15px;
+
+    font-size:35px;
+
+    font-weight:bold;
+
+    color:#28a745;
+
+}
+
+.code{
+
+    margin:30px 0;
+
+    font-size:55px;
+
+    font-weight:bold;
+
+    color:#28a745;
+
+    letter-spacing:8px;
+
+}
+
+.note{
+
+    color:#666;
+
+    font-size:22px;
+
+    line-height:1.6;
+
+}
+
+button{
+
+    width:100%;
+
+    height:68px;
+
+    margin-top:35px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:#28a745;
+
+    color:white;
+
+    font-size:28px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+<div class="lock">
+
+🔒
+
+</div>
+
+<div class="title">
+
+Khóa bánh xe điện tử
+
+</div>
+
+<div class="code">
+
+{{ rent.bike_code }}
+
+</div>
+
+<div class="note">
+
+Nhập mã trên vào bàn phím của khóa điện tử
+gắn trên bánh sau xe.
+
+<br><br>
+
+Sau khi khóa phát tín hiệu mở,
+nhấn nút bên dưới.
+
+</div>
+
+<button
+
+onclick="location.href='/unlock_loading'">
+
+🔓 ĐÃ NHẬP MÃ - MỞ KHÓA XE
+
+</button>
+
+</div>
+
+</body>
+
+</html>
+
+"""
+
+
+UNLOCK_LOADING_HTML = """
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<meta http-equiv="refresh"
+content="3;url=/status">
+
+<title>Đang mở khóa</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+
+    background:
+    linear-gradient(
+        rgba(255,255,255,.92),
+        rgba(255,255,255,.92)
+    ),
+    url('{{ url_for("static",filename="images/metro_nen2.jpg") }}');
+
+    background-size:cover;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    height:100vh;
+
+}
+
+.box{
+
+    width:92%;
+
+    max-width:520px;
+
+    background:white;
+
+    border-radius:25px;
+
+    padding:40px;
+
+    text-align:center;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.18);
+
+}
+
+.lock{
+
+    font-size:100px;
+
+    animation:openLock 1.2s infinite;
+
+}
+
+.title{
+
+    margin-top:20px;
+
+    font-size:38px;
+
+    font-weight:700;
+
+    color:#28a745;
+
+}
+
+.sub{
+
+    margin-top:15px;
+
+    color:#666;
+
+    font-size:24px;
+
+}
+
+.loader{
+
+    margin:35px auto 0;
+
+    width:65px;
+
+    height:65px;
+
+    border:8px solid #ddd;
+
+    border-top:8px solid #28a745;
+
+    border-radius:50%;
+
+    animation:spin 1s linear infinite;
+
+}
+
+@keyframes spin{
+
+100%{
+
+transform:rotate(360deg);
+
+}
+
+}
+
+@keyframes openLock{
+
+0%{
+
+transform:scale(1);
+
+}
+
+50%{
+
+transform:scale(1.15);
+
+}
+
+100%{
+
+transform:scale(1);
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+<div class="lock">
+
+🔓
+
+</div>
+
+<div class="title">
+
+Đang mở khóa xe...
+
+</div>
+
+<div class="sub">
+
+Vui lòng chờ trong giây lát
+
+</div>
+
+<div class="loader">
+
+</div>
+
+</div>
+
+</body>
+
+</html>
+
+"""
+
+
 LOADING_HTML = """
 
 <!DOCTYPE html>
@@ -3404,14 +4035,26 @@ def rent(station_id):
     )
 
 
-@app.route("/unlock_bike/<int:station_id>")
-def unlock_bike(station_id):
+@app.route("/unlock")
+def unlock():
 
-    return render_template(
-        "unlock_success.html",
-        station_id=station_id
+    if rent_info is None:
+        return redirect("/")
+
+    return render_template_string(
+        UNLOCK_HTML,
+        rent=rent_info
     )
 
+@app.route("/unlock_loading")
+def unlock_loading():
+
+    if rent_info is None:
+        return redirect("/")
+
+    return render_template_string(
+        UNLOCK_LOADING_HTML
+    )
 
 @app.route("/confirm_rent/<int:station_id>")
 def confirm_rent(station_id):
@@ -3451,12 +4094,20 @@ def confirm_rent(station_id):
             "date": now.strftime("%d/%m/%Y")
         }
 
-        return render_template_string(
-            LOADING_HTML
-        )
+        return redirect("/send_code")
 
     return redirect("/metro")
 
+@app.route("/send_code")
+def send_code():
+
+    if rent_info is None:
+        return redirect("/")
+
+    return render_template_string(
+        SEND_CODE_HTML,
+        rent=rent_info
+    )
 
 @app.route("/status")
 def status():
